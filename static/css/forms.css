@@ -1,0 +1,115 @@
+@import url("https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@300;400;700;900&display=swap");
+
+*,
+*::after,
+*::before {
+     box-sizing: border-box;
+     margin: 0;
+     padding: 0;
+}
+
+#desks_not_av,#av_desks{
+     display: none;
+}
+
+
+.form-left {
+     float: left;
+     width: 50%;
+     margin-top: 0.375rem;
+}
+
+#desk_booked{
+     display: none;
+}
+
+#email_booked{
+     display: none;
+}
+
+.form-right {
+     float: right;
+     width: 50%;
+     margin-top: 0.375rem;
+}
+
+.form-row:after {
+     content: "";
+     display: table;
+     clear: both;
+}
+
+label {
+     padding: 0.75rem 0.75rem 0.75rem 0;
+     font-family: "Source Sans Pro", sans-serif;
+     display: inline-block;
+     font-size: 1rem;
+     font-weight: bold;
+}
+
+#btn-submit{
+    display: none;
+}
+
+#email,#lname,#fname{
+     display: none;
+}
+
+/* Hide all steps by default: */
+#tab2 {
+     display: none;
+}
+
+#submitBtn,#prevBtn{
+     display: none;
+}
+
+
+#req_inputs,#project_number_error{
+     display: none;
+}
+
+input,
+textarea,select {
+     width: 100%;
+     font-family: "Source Sans Pro", sans-serif;
+     font-size: 1rem;
+     padding: 0.75rem;
+     border: 0.063rem solid #ccc;
+     border-radius: 0.25rem;
+     box-sizing: border-box;
+     resize: vertical;
+}
+
+input[type="submit"],
+input[type="reset"] {
+     color: white;
+     font-family: "Source Sans Pro", sans-serif;
+     font-size: 1.1rem;
+     padding: 0.75rem 1.25rem;
+     /* margin: 0.125rem; */
+     border: none;
+     border-radius: 0.25rem;
+     cursor: pointer;
+     margin-top: 0.375rem;
+}
+
+input[type="submit"] {
+     background-color: hsl(120, 100%, 25%);
+}
+
+input[type="reset"] {
+     background-color: hsl(0, 0%, 37%);
+}
+
+@media screen and (max-width: 640px) {
+     .form-left,
+     .form-right {
+          width: 100%;
+          margin-top: 0rem;
+     }
+
+     input[type="submit"] {
+          margin-top: 0.375rem;
+     }
+}

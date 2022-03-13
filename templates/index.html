@@ -1,0 +1,94 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="app-content" style="overflow:auto !important;">
+<h1 class="app-content-headerText">Create Project</h1>
+    <div class="container">
+        <form id="form" action="/create_project/" method="POST">
+            {% csrf_token %}
+            <p id="req_inputs"style="color:red;">All values are required!</p>
+            <div id="tab1">
+                <label>Project Name</label>
+                <input class="tab1" type="text" value="" name="projectName" id="projectName" class="form-control" placeholder="Project Name" required>
+                <br/><p id="project_number_error" style="color:red;">Project Number Already Exists!</p>
+                <label>Project Number</label>
+                <input class="tab1" type="number" value="" name="projectNumber" id="projectNumber" class="form-control" placeholder="Project Number" required>
+                <label>Client</label>
+                <input class="tab1" type="text" value="" name="client" id="client" class="form-control" placeholder="Client" required>
+                <label>Project Manager</label>
+                <input class="tab1" type="text" value="" name="project_manager" id="project_manager" class="form-control" placeholder="Project Manager" required>
+                <label>Last Review Date</label>
+                <input class="tab1" type="date" value="" name="review_date" id="review_date" class="form-control" placeholder="Review Date" required>
+                <label>Scope of Work</label>
+                <textarea name="scope" class="tab1" rows="4" value="" cols="50"></textarea>
+            </div>
+
+            <div id="tab2">
+                <label>Category</label>
+                <select name="category" class="tab2">
+                    <option value="">Select Category</option>
+                    <option value="1">Technical</option>
+                    <option value="2">Commercial</option>
+                    <option value="3">Performance</option>
+                    <option value="4">Health and Safety</option>
+                    <option value="5">External</option>
+                    <option value="6">Subs</option>
+                </select>
+                <label>Description</label>
+                <input type="text" class="tab2" name="desc" class="form-control" placeholder="Description" required>
+                <label>Probability</label>
+                <select name="probability" class="tab2">
+                    <option value="">Select Impact</option>
+                    <option value="1">Very Unlikely</option>
+                    <option value="2">Unlikely</option>
+                    <option value="3">Moderately Likely</option>
+                    <option value="4">Likely</option>
+                    <option value="5">Very Likely</option>
+                </select>
+                <label>Impact</label>
+                <select name="impact" class="tab2">
+                    <option value="">Select Impact</option>
+                    <option value="1">Negligible</option>
+                    <option value="2">Marginal</option>
+                    <option value="3">Significant</option>
+                    <option value="4">Critical</option>
+                    <option value="5">Unacceptable/Crisis</option>
+                </select>
+                <label>Control Measures</label>
+                <input class="tab2" type="text" name="control_measures" class="form-control" placeholder="Control Measures" required>
+                <label>Client Costs</label>
+                <input class="tab2" type="number" name="cl_costs" class="form-control" placeholder="Client Costs" required>
+                <label>Planned Activities Costs</label>
+                <input class="tab2" type="number" name="pl_activities" class="form-control" placeholder="Planned Activities Costs" required>
+                <label>Contingent Activities Costs</label>
+                <input class="tab2" type="number" name="cont_acts" class="form-control" placeholder="Contingent Activities Costs" required>
+                <label>Costs included in Contingency Budget</label>
+                <input class="tab2" type="number" name="cont_bud" class="form-control" placeholder="Costs included in Contingency Budget" required>
+                <label>Owner</label>
+                <input class="tab2" type="text" name="owner" class="form-control" placeholder="Owner" required>
+                <label>Status</label>
+                <select name="status" class="tab2">
+                    <option value="">Select Status</option>
+                    <option value="1">Open</option>
+                    <option value="2">In Progress</option>
+                    <option value="3">Closed</option>
+                </select>
+                <label>Nearest Month</label>
+                <input class="tab2" type="month" name="nearest_month" class="form-control" placeholder="Nearest Month" required>
+            </div>
+
+            <div style="overflow:auto;margin:10px;">
+                <div style="float:right; display:flex;">
+                <button style="margin:5px;" class="btn btn-success" type="button" id="prevBtn" onclick="">Previous</button>
+                <button style="margin:5px;" class="btn btn-primary" type="button" id="nextBtn" onclick="">Next</button>
+                <button style="margin:5px;" class="btn btn-primary" type="submit" id="submitBtn">Submit</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+{% endblock content %}
+
+
