@@ -8,6 +8,7 @@ var project_number = document.getElementById('projectNumber');
 var valid = true;
 var valid_tab2 = true;
 
+
 nextBtn.addEventListener("click",function(){
     var x = document.getElementsByClassName('tab1');
     for (var i = 0; i < x.length; i++) {
@@ -79,4 +80,5 @@ project_number.addEventListener('change',function(){
         },
     });
 });
+
 

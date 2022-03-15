@@ -1,6 +1,5 @@
-from django.http import HttpResponse
+from django.http import HttpResponse,JsonResponse
 from django.shortcuts import redirect, render
-
 from Routes.models import Projects,Risks
 
 def index(request):
@@ -14,8 +13,20 @@ def platform(request):
     })
 
 def show_projects(request):
+    projects = Projects.objects.all()
     return render(request,'show_projects.html',{
         'nav':'show_projects',
+        'projects':projects,
+    })
+
+def get_risk(request,project_name):
+    risks = Risks.objects.filter(project_no__project_name=project_name)
+    score = int(risks[0].probability) * int(risks[0].impact)
+    return render(request,'get_risk.html',{
+        'nav':'get_risk',
+        'project_name':project_name,
+        'risks':risks,
+        'score':score,
     })
 
 def create_project(request):
@@ -77,3 +88,22 @@ def check_project_number(request,project_number):
         response = 'Project number already exists!'
 
     return HttpResponse(response)
+
+def sort_by(request,sortBy):
+    risks_arr = []
+    projects_arr = []
+    risks = Risks.objects.all().order_by(sortBy)
+    for risk in risks:
+        risks_arr.append(risk.project_no)
+    for r in risks_arr:
+        projects = Projects.objects.get(project_name=r)
+        projects_arr.append({
+            'project_name':projects.project_name,
+            'project_number':projects.project_number,
+            'client':projects.client,
+            'project_manager':projects.project_manager,
+            'last_review':projects.last_review,
+            'scope_of_work':projects.scope_of_work,
+        })
+
+    return JsonResponse(projects_arr, safe=False)

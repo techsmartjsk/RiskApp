@@ -1,0 +1,126 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="app-content" style="overflow:auto !important;">
+    <a href="/show_projects">Go back</a><br/>
+    <h1 class="app-content-headerText">Risk Assessment of {{ project_name }}</h1>
+    {% for r in risks %}
+    <h1 class="app-content-headerText">Assessment</h1>
+    <div class="row">
+        <div class="col-lg-3">
+          <div class="box d-flex rounded-2 align-items-center justify-content-center mb-4 mb-lg-0 p-3 rect_box">
+            <i class="fas fa-dice" style="font-size:40px;"></i>
+            <div class="ms-3">
+              <div class="d-flex align-items-center">
+                <h3 class="mb-0">{{ r.probability }}</h3>
+              </div>
+              <p class="fs-normal mb-0">Probability</p>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-3">
+          <div class="box d-flex rounded-2 justify-content-center align-items-center mb-4 mb-lg-0 p-3 rect_box">
+            <i class="fas fa-fist-raised" style="font-size:40px;"></i>
+            <div class="ms-3">
+              <div class="d-flex align-items-center">
+                <h3 class="mb-0">{{ r.impact }}</h3>
+              </div>
+              <p class="fs-normal mb-0">Impact</p>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-3">
+          <div class="box d-flex rounded-2 justify-content-center align-items-center p-3 rect_box">
+            <i class="fas fa-star" style="font-size:40px;"></i>
+            <div class="ms-3">
+              <div class="d-flex align-items-center">
+                <h3 class="mb-0">{{ score }}</h3>
+              </div>
+              <p class="fs-normal mb-0">Score</p>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-3">
+            <div class="box d-flex rounded-2 justify-content-center align-items-center p-3 rect_box">
+              <i class="fas fa-history" style="font-size:40px;"></i>
+              <div class="ms-3">
+                <div class="d-flex align-items-center">
+                  <h3 class="mb-0">{{ r.get_status_display }}</h3>
+                </div>
+                <p class="fs-normal mb-0">Status</p>
+              </div>
+            </div>
+        </div>
+    </div>
+    <br/>
+    <h1 class="app-content-headerText">Risk Information</h1>
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="box d-flex rounded-2 align-items-center mb-4 mb-lg-0 p-3 blue_box">
+                <div class="ms-3">
+                    <div class="d-flex align-items-center">
+                        <h5 class="fs-normal mb-0"><strong>Category :</strong> {{ r.get_category_display }}</h5>
+                    </div>
+                    <br/>
+                <h5 class="fs-normal mb-0"><strong>Risk Description :</strong> {{ r.desc }}</h5><br/>
+                <h5 class="fs-normal mb-0"><strong>Control Measures :</strong> {{ r.control_measures}}</h5><br/>
+                <h5 class="fs-normal mb-0"><strong>Owner :</strong> {{ r.owner }}</h5><br/>
+                <h5 class="fs-normal mb-0"><strong>Nearest Month :</strong> {{ r.nearest_month }}</h5>
+                </div>
+            </div>
+        </div>
+    </div>
+    <br/>
+    <h1 class="app-content-headerText">Potential Costs</h1>
+    <div class="row">
+        <div class="col-lg-3">
+            <div class="box d-flex rounded-2 align-items-center justify-content-center mb-4 mb-lg-0 p-3 costs_box">
+              <i class="fas fa-money-bill-wave" style="font-size:40px;"></i>
+              <div class="ms-3">
+                <div class="d-flex align-items-center">
+                  <h3 class="mb-0">£ {{ r.cl_costs }}</h3>
+                </div>
+                <p class="fs-normal mb-0">Client Costs</p>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-3">
+            <div class="box d-flex rounded-2 justify-content-center align-items-center mb-4 mb-lg-0 p-3 costs_box">
+              <i class="fas fa-money-bill-wave" style="font-size:40px;"></i>
+              <div class="ms-3">
+                <div class="d-flex align-items-center">
+                  <h3 class="mb-0">£ {{ r.planned_costs}}</h3>
+                </div>
+                <p class="fs-normal mb-0">Planned Activities Costs</p>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-3">
+            <div class="box d-flex rounded-2 justify-content-center align-items-center p-3 costs_box">
+              <i class="fas fa-money-bill-wave" style="font-size:40px;"></i>
+              <div class="ms-3">
+                <div class="d-flex align-items-center">
+                  <h3 class="mb-0">£ {{ r.cont_costs }}</h3>
+                </div>
+                <p class="fs-normal mb-0">Contingent Activities Costs</p>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-3">
+              <div class="box d-flex rounded-2 justify-content-center align-items-center p-3 costs_box">
+                <i class="fas fa-money-bill-wave" style="font-size:40px;"></i>
+                <div class="ms-3">
+                  <div class="d-flex align-items-center">
+                    <h3 class="mb-0">£ {{ r.costs_in_budget }}</h3>
+                  </div>
+                  <p class="fs-normal mb-0">Costs included in Contingency Budget</p>
+                </div>
+              </div>
+          </div>
+    </div>
+    {% endfor %}
+</div>
+
+{% endblock content %}
+
+

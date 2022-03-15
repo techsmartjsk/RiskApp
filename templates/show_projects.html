@@ -1,9 +1,41 @@
 {% extends 'base.html' %}
-
+{% load static %}
 {% block content %}
 <div class="app-content" style="overflow:auto !important;">
-    <h1 class="app-content-headerText">Projects</h1><br/>
+    <h1 class="app-content-headerText">Projects</h1>
+    <select style="margin-left:auto; max-width:200px;"id="sort_projects_by">
+        <option value="" selected disabled>Sort By</option>
+        <option value="probability">Probability</option>
+        <option value="impact">Impact</option>
+    </select>
+    </br>
+    <table>
+        <thead>
+            <th>Project Name</th>
+            <th>Project Number</th>
+            <th>Client</th>
+            <th>Project Manager</th>
+            <th>Last Review Date</th>
+            <th>Scope of Work</th>
+            <th>Risk Information</th>
+        </thead>
+        <tbody id="projects">
+            {% for p in projects %}
+                <tr>
+                    <td>{{ p.project_name }}</td>
+                    <td>{{ p.project_number }}</td>
+                    <td>{{ p.client }}</td>
+                    <td>{{ p.project_manager }}</td>
+                    <td>{{ p.last_review }}</td>
+                    <td>{{ p.scope_of_work}}</td>
+                    <td><a href="/get_risk/{{p.project_name}}" class="btn btn-success btn-sm">Check Now</a></td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
 </div>
+
+<script src="{% static 'js/sort.js' %}"></script>
 
 {% endblock content %}
 

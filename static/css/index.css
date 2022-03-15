@@ -15,6 +15,22 @@
     --filter-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
   }
   
+
+  .rect_box{
+    background-color: lightgreen;
+    border-radius: 10px;
+  }
+
+  .costs_box{
+    background-color: lightgreen;
+    border-radius: 10px;
+    min-height: 120px;
+  }
+
+  .blue_box{
+    background-color: #f5faff;
+    border-radius: 10px;
+  }
   
   .light:root {
     --app-bg: #fff;
