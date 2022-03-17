@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load filters %}
 {% block content %}
 <div class="app-content" style="overflow:auto !important;">
     <h1 class="app-content-headerText">Projects</h1>
@@ -8,27 +9,74 @@
         <option value="probability">Probability</option>
         <option value="impact">Impact</option>
     </select>
+    <div>
+        <ul id="columns-dropdown">
+            <li class="inline_list"><input  type="checkbox" data-col="col-name" class="col-checkbox" />Project Name</li>
+            <li class="inline_list"><input  type="checkbox" data-col="col-number" class="col-checkbox" />Project Number</li>
+            <li class="inline_list"><input  type="checkbox" data-col="col-client"class="col-checkbox" />Client</li>
+            <li class="inline_list"><input  type="checkbox" data-col="col-pro-manager" class="col-checkbox" />Project Manager</li>
+            <li class="inline_list"><input  type="checkbox" data-col="col-last-review" class="col-checkbox" />Last Review Date</li>
+            <li class="inline_list"><input  type="checkbox" data-col="col-scope" class="col-checkbox" />Scope of Work</li>
+            <li class="inline_list"><input  type="checkbox" data-col="col-cat"class="col-checkbox" />Category</li>
+            <li class="inline_list"><input  type="checkbox" data-col="col-risk" class="col-checkbox" />Risk Description</li>
+            <li class="inline_list"><input  type="checkbox" data-col="col-prob" class="col-checkbox" />Probability</li>
+            <li class="inline_list"><input  type="checkbox" data-col="col-impact" class="col-checkbox" />Impact</li>
+            <li class="inline_list"><input  type="checkbox" data-col="col-score"class="col-checkbox" />Score</li>
+            <li class="inline_list"><input  type="checkbox" data-col="col-control" class="col-checkbox" />Control Measures</li>
+            <li class="inline_list"><input  type="checkbox" data-col="col-owner" class="col-checkbox" />Owner</li>
+            <li class="inline_list"><input  type="checkbox" data-col="col-status" class="col-checkbox" />Status</li>
+            <li class="inline_list"><input  type="checkbox" data-col="col-nearest"class="col-checkbox" />Nearest Month</li>
+            <li class="inline_list"><input  type="checkbox" data-col="col-cl-costs" class="col-checkbox" />Client Costs(£)</li>
+            <li class="inline_list"><input  type="checkbox" data-col="col-pl-costs" class="col-checkbox" />Planned Activities Costs(£)</li>
+            <li class="inline_list"><input  type="checkbox" data-col="col-cont-costs" class="col-checkbox" />Contingent Activities Costs(£)</li>
+            <li class="inline_list"><input  type="checkbox" data-col="col-bud-costs"class="col-checkbox" />Costs included in Contingency Budget(£)</li>
+        </ul>
+    </div>
     </br>
     <table>
         <thead>
-            <th>Project Name</th>
-            <th>Project Number</th>
-            <th>Client</th>
-            <th>Project Manager</th>
-            <th>Last Review Date</th>
-            <th>Scope of Work</th>
-            <th>Risk Information</th>
+            <th class="col-name">Project Name</th>
+            <th class="col-number">Project Number</th>
+            <th class="col-client">Client</th>
+            <th class="col-pro-manager">Project Manager</th>
+            <th class="width_ col-last-review">Last Review Date</th>
+            <th class="width_ col-scope">Scope of Work</th>
+            <th class="col-cat">Category</th>
+            <th class="width_ col-risk">Risk Description</th>
+            <th class="col-prob">Probability</th>
+            <th class="col-impact">Impact</th>
+            <th class="col-score">Score</th>
+            <th class="width_ col-control">Control Measures</th>
+            <th class="col-owner">Owner</th>
+            <th class="col-status">Status</th>
+            <th class="width_ col-nearest">Nearest Month</th>
+            <th class="col-cl-costs">Client Costs</th>
+            <th class="col-pl-costs">Planned Activities Costs</th>
+            <th class="col-cont-costs">Contingent Activities Costs</th>
+            <th class="col-bud-costs">Costs included in Contingency Budget</th>
         </thead>
         <tbody id="projects">
             {% for p in projects %}
                 <tr>
-                    <td>{{ p.project_name }}</td>
-                    <td>{{ p.project_number }}</td>
-                    <td>{{ p.client }}</td>
-                    <td>{{ p.project_manager }}</td>
-                    <td>{{ p.last_review }}</td>
-                    <td>{{ p.scope_of_work}}</td>
-                    <td><a href="/get_risk/{{p.project_name}}" class="btn btn-success btn-sm">Check Now</a></td>
+                    <td class="col-name">{{ p.project_name }}</td>
+                    <td class="col-number">{{ p.project_number }}</td>
+                    <td class="col-client">{{ p.client }}</td>
+                    <td class="col-pro-manager">{{ p.project_manager }}</td>
+                    <td class="col-last-review">{{ p.last_review }}</td>
+                    <td class="col-scope">{{ p.scope_of_work}}</td>
+                    <td class="col-cat">{{ p.risks.get_category_display }}</td>
+                    <td class="col-risk">{{ p.risks.desc }}</td>
+                    <td class="col-prob">{{ p.risks.probability }}</td>
+                    <td class="col-impact">{{ p.risks.impact }}</td>
+                    <td class="col-score">{{ score|array:forloop.counter0 }}</td>
+                    <td class="col-control">{{ p.risks.control_measures }}</td>
+                    <td class="col-owner">{{ p.risks.owner }}</td>
+                    <td class="col-status">{{ p.risks.get_status_display }}</td>
+                    <td class="col-nearest">{{ p.risks.nearest_month }}</td>
+                    <td class="col-cl-costs">£{{ p.risks.cl_costs }}</td>
+                    <td class="col-pl-costs">£{{ p.risks.planned_costs }}</td>
+                    <td class="col-cont-costs">£{{ p.risks.cont_costs }}</td>
+                    <td class="col-bud-costs">£{{ p.risks.costs_in_budget }}</td>
                 </tr>
             {% endfor %}
         </tbody>

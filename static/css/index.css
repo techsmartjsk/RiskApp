@@ -27,9 +27,21 @@
     min-height: 120px;
   }
 
+  #columns-dropdown {
+    list-style: none;
+  }
+
   .blue_box{
     background-color: #f5faff;
     border-radius: 10px;
+  }
+
+  .width_{
+    min-width: 200px;
+  }
+
+  .inline_list{
+    display: inline;
   }
   
   .light:root {
@@ -295,7 +307,11 @@
     margin: auto;
     padding: 10px 0px;
     width: 100%;
-    color: #579E81;
+    color:#579E81;
+  }
+
+  .col-checkbox{
+    width:fit-content !important;
   }
   
   

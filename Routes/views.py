@@ -14,9 +14,13 @@ def platform(request):
 
 def show_projects(request):
     projects = Projects.objects.all()
+    score = []
+    for project in projects:
+        score.append(int(project.risks.impact) * int(project.risks.probability))
     return render(request,'show_projects.html',{
         'nav':'show_projects',
         'projects':projects,
+        'score':score,
     })
 
 def get_risk(request,project_name):
@@ -104,6 +108,19 @@ def sort_by(request,sortBy):
             'project_manager':projects.project_manager,
             'last_review':projects.last_review,
             'scope_of_work':projects.scope_of_work,
+            'category':projects.risks.get_category_display(),
+            'desc':projects.risks.desc,
+            'probability':projects.risks.probability,
+            'impact':projects.risks.impact,
+            'control_measures':projects.risks.control_measures,
+            'costs_in_budget':projects.risks.costs_in_budget,
+            'cl_costs':projects.risks.cl_costs,
+            'planned_costs':projects.risks.planned_costs,
+            'cont_costs':projects.risks.cont_costs,
+            'owner':projects.risks.owner,
+            'status':projects.risks.get_status_display(),
+            'nearest_month':projects.risks.nearest_month,
+            'score':int(projects.risks.probability) * int(projects.risks.impact),
         })
 
     return JsonResponse(projects_arr, safe=False)
