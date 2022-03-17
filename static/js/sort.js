@@ -28,7 +28,7 @@ sort_by.addEventListener('change',function(){
                 '<td class="col-cl-costs">£' + data[i].cl_costs + '</td>' +
                 '<td class="col-pl-costs">£' + data[i].planned_costs + '</td>' +
                 '<td class="col-cont-costs">£' + data[i].cont_costs + '</td>' +
-                '<td class="col-bud-costs">´' + data[i].costs_in_budget + '</td>' +
+                '<td class="col-bud-costs">£' + data[i].costs_in_budget + '</td>' +
                 '</tr>');
             }
         },
