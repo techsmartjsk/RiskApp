@@ -13,7 +13,7 @@
                 <input class="tab1" type="text" value="" name="projectName" id="projectName" class="form-control" placeholder="Project Name" required>
                 <br/><p id="project_number_error" style="color:red;">Project Number Already Exists!</p>
                 <label>Project Number</label>
-                <input class="tab1" type="number" value="" name="projectNumber" id="projectNumber" class="form-control" placeholder="Project Number" required>
+                <input class="tab1" type="number" min="0" value="" name="projectNumber" id="projectNumber" class="form-control" placeholder="Project Number" required>
                 <label>Client</label>
                 <input class="tab1" type="text" value="" name="client" id="client" class="form-control" placeholder="Client" required>
                 <label>Project Manager</label>
@@ -58,13 +58,13 @@
                 <label>Control Measures</label>
                 <input class="tab2" type="text" name="control_measures" class="form-control" placeholder="Control Measures" required>
                 <label>Client Costs</label>
-                <input class="tab2" type="number" name="cl_costs" class="form-control" placeholder="Client Costs" required>
+                <input class="tab2" type="number" min="0" name="cl_costs" class="form-control" placeholder="Client Costs" required>
                 <label>Planned Activities Costs</label>
-                <input class="tab2" type="number" name="pl_activities" class="form-control" placeholder="Planned Activities Costs" required>
+                <input class="tab2" type="number" min="0" name="pl_activities" class="form-control" placeholder="Planned Activities Costs" required>
                 <label>Contingent Activities Costs</label>
-                <input class="tab2" type="number" name="cont_acts" class="form-control" placeholder="Contingent Activities Costs" required>
+                <input class="tab2" type="number" min="0" name="cont_acts" class="form-control" placeholder="Contingent Activities Costs" required>
                 <label>Costs included in Contingency Budget</label>
-                <input class="tab2" type="number" name="cont_bud" class="form-control" placeholder="Costs included in Contingency Budget" required>
+                <input class="tab2" type="number" min="0" name="cont_bud" class="form-control" placeholder="Costs included in Contingency Budget" required>
                 <label>Owner</label>
                 <input class="tab2" type="text" name="owner" class="form-control" placeholder="Owner" required>
                 <label>Status</label>

@@ -92,11 +92,11 @@
     // Area Chart Example
 var ctx = document.getElementById("myAreaChart");
 var myLineChart = new Chart(ctx, {
-  type: 'line',
+  type: 'bar',
   data: {
     labels:{{ project_names|safe }},
     datasets: [{
-      label: "Risk Magnitude vs Projects",
+      label: "Impact",
       lineTension: 0.3,
       backgroundColor: "rgba(78, 115, 223, 0.05)",
       borderColor: "rgba(78, 115, 223, 1)",
@@ -108,10 +108,44 @@ var myLineChart = new Chart(ctx, {
       pointHoverBorderColor: "rgba(78, 115, 223, 1)",
       pointHitRadius: 10,
       pointBorderWidth: 2,
-      data: {{ score|safe }},
-    }],
+      data: {{ impact|safe }},
+    },{
+      label: "Probability",
+      lineTension: 0.3,
+      backgroundColor: "rgb(255,0,0)",
+      borderColor: "rgb(255,0,0)",
+      pointRadius: 3,
+      pointBackgroundColor: "rgb(255,0,0)",
+      pointBorderColor: "rgb(255,0,0)",
+      pointHoverRadius: 3,
+      pointHoverBackgroundColor: "rgb(255,0,0)",
+      pointHoverBorderColor: "rgb(255,0,0)",
+      pointHitRadius: 10,
+      pointBorderWidth: 2,
+      data: {{ probability|safe }},
+    },{
+        label: "Score",
+        lineTension: 0.3,
+        backgroundColor: "rgb(0,128,0)",
+        borderColor: "rgb(0,128,0)",
+        pointRadius: 3,
+        pointBackgroundColor: "rgb(0,128,0)",
+        pointBorderColor: "rgb(0,128,0)",
+        pointHoverRadius: 3,
+        pointHoverBackgroundColor: "rgb(0,128,0)",
+        pointHoverBorderColor: "rgb(0,128,0)",
+        pointHitRadius: 10,
+        pointBorderWidth: 2,
+        data: {{ score|safe }},
+      }],
   },
   options: {
+    plugins: {
+        title: {
+            display: true,
+            text: 'Project Risk Score'
+        }
+    },
     maintainAspectRatio: false,
     layout: {
       padding: {
@@ -129,16 +163,13 @@ var myLineChart = new Chart(ctx, {
             beginAtZero: true
         },
       xAxes: [{
-        time: {
-          unit: 'date'
-        },
         gridLines: {
           display: false,
           drawBorder: false
         },
         ticks: {
           maxTicksLimit: 7,
-        }
+        },
       }],
       yAxes: [{
         ticks: {
@@ -151,7 +182,7 @@ var myLineChart = new Chart(ctx, {
           drawBorder: false,
           borderDash: [2],
           zeroLineBorderDash: [2]
-        }
+        },
       }],
     },
     legend: {
