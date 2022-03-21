@@ -74,3 +74,5 @@ function hideShowTableCol(colName, checked) {
         cell.style.display = (checked) ? 'table-cell' : 'none';
     });
 }
+
+

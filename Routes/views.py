@@ -15,12 +15,15 @@ def platform(request):
 def show_projects(request):
     projects = Projects.objects.all()
     score = []
+    project_names = []
     for project in projects:
         score.append(int(project.risks.impact) * int(project.risks.probability))
+        project_names.append(project.project_name)
     return render(request,'show_projects.html',{
         'nav':'show_projects',
         'projects':projects,
         'score':score,
+        'project_names':project_names,
     })
 
 def get_risk(request,project_name):
