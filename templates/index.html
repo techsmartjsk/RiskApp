@@ -3,8 +3,8 @@
 {% block content %}
 
 <div class="app-content" style="overflow:auto !important;">
-<h1 class="app-content-headerText">Create Project</h1>
-<a style="margin-left:auto; max-width:200px;" class="btn btn-primary"href="/existing_project">Add to existing project</a>
+<h1 class="app-content-headerText">Add risk values to a new project</h1>
+<a style="margin-left:auto; max-width:250px;" class="btn btn-primary"href="/existing_project">Add risk to existing project</a>
     <div class="container">
         <form id="form" action="/create_project/" method="POST">
             {% csrf_token %}
