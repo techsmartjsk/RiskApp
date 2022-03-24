@@ -59,27 +59,28 @@
             <th class="col-bud-costs">Costs included in Contingency Budget(£)</th>
         </thead>
         <tbody id="projects">
-            {% for p in projects %}
+            {% for r in risks %}
                 <tr>
-                    <td class="col-name">{{ p.project_name }}</td>
-                    <td class="col-number">{{ p.project_number }}</td>
-                    <td class="col-client">{{ p.client }}</td>
-                    <td class="col-pro-manager">{{ p.project_manager }}</td>
-                    <td class="col-last-review">{{ p.last_review }}</td>
-                    <td class="col-scope">{{ p.scope_of_work}}</td>
-                    <td class="col-cat">{{ p.risks.get_category_display }}</td>
-                    <td class="col-risk">{{ p.risks.desc }}</td>
-                    <td class="col-prob">{{ p.risks.probability }}</td>
-                    <td class="col-impact">{{ p.risks.impact }}</td>
+                    <td class="col-name">{{ r.projects.project_name }}</td>
+                    <td class="col-number">{{ r.projects.project_number }}</td>
+                    <td class="col-client">{{ r.projects.client }}</td>
+                    <td class="col-pro-manager">{{ r.projectsp.project_manager }}</td>
+                    <td class="col-last-review">{{ r.projects.last_review }}</td>
+                    <td class="col-scope">{{ r.projects.scope_of_work}}</td>
+                    <td class="col-cat">{{ r.get_category_display }}</td>
+                    <td class="col-risk">{{ r.desc }}</td>
+                    <td class="col-prob">{{ r.probability }}</td>
+                    <td class="col-impact">{{ r.impact }}</td>
                     <td class="col-score">{{ score|array:forloop.counter0 }}</td>
-                    <td class="col-control">{{ p.risks.control_measures }}</td>
-                    <td class="col-owner">{{ p.risks.owner }}</td>
-                    <td class="col-status">{{ p.risks.get_status_display }}</td>
-                    <td class="col-nearest">{{ p.risks.nearest_month }}</td>
-                    <td class="col-cl-costs">£{{ p.risks.cl_costs }}</td>
-                    <td class="col-pl-costs">£{{ p.risks.planned_costs }}</td>
-                    <td class="col-cont-costs">£{{ p.risks.cont_costs }}</td>
-                    <td class="col-bud-costs">£{{ p.risks.costs_in_budget }}</td>
+                    <td class="col-control">{{ r.control_measures }}</td>
+                    <td class="col-owner">{{ r.owner }}</td>
+                    <td class="col-status">{{ r.get_status_display }}</td>
+                    <td class="col-nearest">{{ r.nearest_month }}</td>
+                    <td class="col-cl-costs">£{{ r.cl_costs }}</td>
+                    <td class="col-pl-costs">£{{ r.planned_costs }}</td>
+                    <td class="col-cont-costs">£{{ r.cont_costs }}</td>
+                    <td class="col-bud-costs">£{{ r.costs_in_budget }}</td>
+            
                 </tr>
             {% endfor %}
         </tbody>

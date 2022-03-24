@@ -42,8 +42,12 @@ class Projects(models.Model):
     def __str__(self):
         return self.project_name
 
+    def get_risk_by_project(self):
+        if self.risks_set.count():
+            return self.risks_set.order_by('id')[0]
+
 class Risks(models.Model):
-    project_no = models.OneToOneField(Projects,on_delete=models.CASCADE)
+    projects = models.ForeignKey(Projects,on_delete=models.CASCADE,blank=True, null=True)
     category = models.CharField(max_length=1, choices=category_choices)
     desc = models.TextField()
     probability = models.CharField(max_length=1, choices=probability_choices)

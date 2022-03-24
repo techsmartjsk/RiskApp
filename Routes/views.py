@@ -1,6 +1,7 @@
 from django.http import HttpResponse,JsonResponse
 from django.shortcuts import redirect, render
 from Routes.models import Projects,Risks
+import json
 
 def index(request):
     return render(request, 'disclaimer.html',{
@@ -14,18 +15,26 @@ def platform(request):
 
 def show_projects(request):
     projects = Projects.objects.all()
+    risks = Risks.objects.all()
     score = []
     project_names = []
     probability = []
     impact = []
+    project_name = ''
+    projects_all = []
     for project in projects:
-        score.append(int(project.risks.impact) * int(project.risks.probability))
-        project_names.append(project.project_name)
-        probability.append(project.risks.probability)
-        impact.append(project.risks.impact)
+        project_name = Projects.objects.get(project_number=project.project_number)
+        projects_all.append(project.project_name)
+        for risk in project_name.risks_set.all():
+            score.append(risk.impact)
+            project_names.append(project.project_name)
+            probability.append(risk.probability)
+            impact.append(risk.impact)
+
     return render(request,'show_projects.html',{
         'nav':'show_projects',
         'projects':projects,
+        'risks':risks,
         'score':score,
         'project_names':project_names,
         'probability':probability,
@@ -40,6 +49,46 @@ def get_risk(request,project_name):
         'project_name':project_name,
         'risks':risks,
         'score':score,
+    })
+
+def existing_project(request):
+    projects = Projects.objects.all()
+    if request.method == 'POST':
+        projects_ = Projects.objects.get(project_number=request.POST['project'])
+        category = request.POST['category']
+        desc = request.POST['desc']
+        probability = request.POST['probability']
+        impact = request.POST['impact']
+        control_measures = request.POST['control_measures']
+        cl_costs = request.POST['cl_costs']
+        pl_activities = request.POST['pl_activities']
+        cont_acts = request.POST['cont_acts']
+        owner  = request.POST['owner']
+        status = request.POST['status']
+        nearest_month = request.POST['nearest_month']
+        cont_bud = request.POST['cont_bud']
+
+        risks = Risks(projects=projects_,
+        category=category,
+        desc=desc,
+        probability=probability,
+        impact=impact,
+        control_measures=control_measures,
+        costs_in_budget=cont_bud,
+        cl_costs=cl_costs,
+        planned_costs=pl_activities,
+        cont_costs=cont_acts,
+        owner=owner,
+        status=status,
+        nearest_month=nearest_month)
+
+        risks.save()
+
+        return redirect('/show_projects')
+
+    return render(request,'existing_project.html',{
+        'nav':'create_project',
+        'projects':projects,
     })
 
 def create_project(request):
@@ -73,7 +122,7 @@ def create_project(request):
         nearest_month = request.POST['nearest_month']
         cont_bud = request.POST['cont_bud']
 
-        risks = Risks(project_no=projects,
+        risks = Risks(projects=projects,
         category=category,
         desc=desc,
         probability=probability,
