@@ -26,7 +26,7 @@ def show_projects(request):
         project_name = Projects.objects.get(project_number=project.project_number)
         projects_all.append(project.project_name)
         for risk in project_name.risks_set.all():
-            score.append(risk.impact)
+            score.append(int(risk.impact) * int(risk.probability))
             project_names.append(project.project_name)
             probability.append(risk.probability)
             impact.append(risk.impact)
