@@ -2,6 +2,12 @@ from django.http import HttpResponse,JsonResponse
 from django.shortcuts import redirect, render
 from Routes.models import Projects,Risks
 import json
+import io
+import urllib, base64
+import numpy as np
+import matplotlib
+matplotlib.use("agg")
+import matplotlib.pyplot as plt
 
 def index(request):
     return render(request, 'disclaimer.html',{
@@ -24,12 +30,43 @@ def show_projects(request):
     projects_all = []
     for project in projects:
         project_name = Projects.objects.get(project_number=project.project_number)
-        projects_all.append(project.project_name)
+        projects_all.append(project.project_number)
         for risk in project_name.risks_set.all():
-            score.append(int(risk.impact) * int(risk.probability))
             project_names.append(project.project_name)
-            probability.append(risk.probability)
-            impact.append(risk.impact)
+            probability.append(int(risk.probability))
+            impact.append(int(risk.impact))
+
+    for i in range(len(project_names)):
+        print(str(impact[i]) + ',' + str(probability[i])) 
+        score.append(impact[i] * probability[i])
+    
+    buf2 = io.BytesIO()
+    img = plt.imread("static/images/bg_.png")
+    fig, ax = plt.subplots() 
+    x = range(5)
+    y = range(5)
+    ax.imshow(img,extent=[0, 5, 0, 5])
+    plt.xlabel('Impact')
+    plt.ylabel('Probability')
+
+    text = []
+
+    for n in range(len(projects_all)):
+        text.append('R' + str(projects_all[n]))
+
+    for i, txt in enumerate(text):
+        ax.annotate(txt, (impact[i], probability[i]))
+    
+    #Plot some data
+    plt.scatter(impact, probability,c='blue')
+
+    plt.show()
+
+    plt.savefig(buf2,format = 'png')
+    buf2.seek(0)
+    string2 = base64.b64encode(buf2.read())
+    uri2 = urllib.parse.quote(string2)
+
 
     return render(request,'show_projects.html',{
         'nav':'show_projects',
@@ -39,6 +76,7 @@ def show_projects(request):
         'project_names':project_names,
         'probability':probability,
         'impact':impact,
+        'chart':uri2 
     })
 
 def get_risk(request,project_name):

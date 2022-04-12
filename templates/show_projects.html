@@ -4,9 +4,10 @@
 {% block content %}
 <div class="app-content" style="overflow:auto !important;">
     <h1 class="app-content-headerText">Projects</h1>
-    <div>
+    {% comment %} <div>
         <canvas id="myAreaChart" style="height:300px !important;"></canvas>
-    </div>
+    </div> {% endcomment %}
+    <img style="height:600px;"src='data:image/png;base64,{{ chart }}'>
     <select style="margin-left:auto; max-width:200px;"id="sort_projects_by">
         <option value="" selected disabled>Sort By</option>
         <option value="probability">Probability</option>
@@ -64,13 +65,13 @@
                     <td class="col-name">{{ r.projects.project_name }}</td>
                     <td class="col-number">{{ r.projects.project_number }}</td>
                     <td class="col-client">{{ r.projects.client }}</td>
-                    <td class="col-pro-manager">{{ r.projectsp.project_manager }}</td>
+                    <td class="col-pro-manager">{{ r.projects.project_manager }}</td>
                     <td class="col-last-review">{{ r.projects.last_review }}</td>
                     <td class="col-scope">{{ r.projects.scope_of_work}}</td>
                     <td class="col-cat">{{ r.get_category_display }}</td>
                     <td class="col-risk">{{ r.desc }}</td>
-                    <td class="col-prob">{{ r.probability }}</td>
-                    <td class="col-impact">{{ r.impact }}</td>
+                    <td class="col-prob">{{ probability|array:forloop.counter0 }}</td>
+                    <td class="col-impact">{{ impact|array:forloop.counter0 }}</td>
                     <td class="col-score">{{ score|array:forloop.counter0 }}</td>
                     <td class="col-control">{{ r.control_measures }}</td>
                     <td class="col-owner">{{ r.owner }}</td>
@@ -86,10 +87,10 @@
         </tbody>
     </table>
 </div>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.1/chart.min.js" integrity="sha512-QSkVNOCYLtj73J4hbmVoOV6KVZuMluZlioC+trLpewV8qMjsWqlIQvkn1KGX2StWvPMdWGBqim1xlC8krl1EKQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+{% comment %} <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.1/chart.min.js" integrity="sha512-QSkVNOCYLtj73J4hbmVoOV6KVZuMluZlioC+trLpewV8qMjsWqlIQvkn1KGX2StWvPMdWGBqim1xlC8krl1EKQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script> {% endcomment %}
 
 <script src="{% static 'js/sort.js' %}"></script>
-<script>
+{% comment %} <script>
     // Area Chart Example
 var ctx = document.getElementById("myAreaChart");
 var myLineChart = new Chart(ctx, {
@@ -210,7 +211,7 @@ var myLineChart = new Chart(ctx, {
 
 
 
-</script>
+</script> {% endcomment %}
 
 {% endblock content %}
 
