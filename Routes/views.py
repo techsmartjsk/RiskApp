@@ -7,10 +7,10 @@ import os
 import urllib, base64
 import numpy as np
 import matplotlib
-import matplotlib.image as image
 matplotlib.use("agg")
 import matplotlib.pyplot as plt
 from django.templatetags.static import static
+from PIL import Image
 
 def index(request):
     return render(request, 'disclaimer.html',{
@@ -43,7 +43,7 @@ def show_projects(request):
         score.append(impact[i] * probability[i])
     
     buf2 = io.BytesIO()
-    img = image.imread('bg_.png')
+    img = Image.open('/home/jaskiratsingh/RiskTool/bg_.png')
     fig, ax = plt.subplots() 
     x = range(5)
     y = range(5)
@@ -195,30 +195,27 @@ def sort_by(request,sortBy):
     risks_arr = []
     projects_arr = []
     risks = Risks.objects.all().order_by(sortBy)
-    for risk in risks:
-        risks_arr.append(risk.project_no)
-    for r in risks_arr:
-        projects = Projects.objects.get(project_name=r)
+    for r in risks:
         projects_arr.append({
-            'project_name':projects.project_name,
-            'project_number':projects.project_number,
-            'client':projects.client,
-            'project_manager':projects.project_manager,
-            'last_review':projects.last_review,
-            'scope_of_work':projects.scope_of_work,
-            'category':projects.risks.get_category_display(),
-            'desc':projects.risks.desc,
-            'probability':projects.risks.probability,
-            'impact':projects.risks.impact,
-            'control_measures':projects.risks.control_measures,
-            'costs_in_budget':projects.risks.costs_in_budget,
-            'cl_costs':projects.risks.cl_costs,
-            'planned_costs':projects.risks.planned_costs,
-            'cont_costs':projects.risks.cont_costs,
-            'owner':projects.risks.owner,
-            'status':projects.risks.get_status_display(),
-            'nearest_month':projects.risks.nearest_month,
-            'score':int(projects.risks.probability) * int(projects.risks.impact),
+            'project_name':r.projects.project_name,
+            'project_number':r.projects.project_number,
+            'client':r.projects.client,
+            'project_manager':r.projects.project_manager,
+            'last_review':r.projects.last_review,
+            'scope_of_work':r.projects.scope_of_work,
+            'category':r.get_category_display(),
+            'desc':r.desc,
+            'probability':r.probability,
+            'impact':r.impact,
+            'control_measures':r.control_measures,
+            'costs_in_budget':r.costs_in_budget,
+            'cl_costs':r.cl_costs,
+            'planned_costs':r.planned_costs,
+            'cont_costs':r.cont_costs,
+            'owner':r.owner,
+            'status':r.get_status_display(),
+            'nearest_month':r.nearest_month,
+            'score':int(r.probability) * int(r.impact),
         })
 
     return JsonResponse(projects_arr, safe=False)
