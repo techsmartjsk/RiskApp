@@ -10,6 +10,7 @@ import matplotlib
 import matplotlib.image as image
 matplotlib.use("agg")
 import matplotlib.pyplot as plt
+from django.templatetags.static import static
 
 def index(request):
     return render(request, 'disclaimer.html',{
@@ -39,12 +40,10 @@ def show_projects(request):
             impact.append(int(risk.impact))
 
     for i in range(len(project_names)):
-        print(str(impact[i]) + ',' + str(probability[i])) 
         score.append(impact[i] * probability[i])
     
     buf2 = io.BytesIO()
-    curr = os.getcwd()
-    img = image.imread(curr + '/static/images/bg_.png')
+    img = image.imread('bg_.png')
     fig, ax = plt.subplots() 
     x = range(5)
     y = range(5)
