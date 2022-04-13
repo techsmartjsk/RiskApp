@@ -3,9 +3,11 @@ from django.shortcuts import redirect, render
 from Routes.models import Projects,Risks
 import json
 import io
+import os
 import urllib, base64
 import numpy as np
 import matplotlib
+import matplotlib.image as image
 matplotlib.use("agg")
 import matplotlib.pyplot as plt
 
@@ -41,11 +43,12 @@ def show_projects(request):
         score.append(impact[i] * probability[i])
     
     buf2 = io.BytesIO()
-    img = plt.imread("static/images/bg_.png")
+    curr = os.getcwd()
+    img = image.imread(curr + '/static/images/bg_.png')
     fig, ax = plt.subplots() 
     x = range(5)
     y = range(5)
-    ax.imshow(img,extent=[0, 5, 0, 5])
+    
     plt.xlabel('Impact')
     plt.ylabel('Probability')
 
@@ -59,7 +62,7 @@ def show_projects(request):
     
     #Plot some data
     plt.scatter(impact, probability,c='blue')
-
+    ax.imshow(img,extent=[0, 5, 0, 5])
     plt.show()
 
     plt.savefig(buf2,format = 'png')
