@@ -51,8 +51,7 @@ def show_projects(request):
 
     #Chart 1
     buf2 = io.BytesIO()
-    # img = Image.open('/home/jaskiratsingh/RiskTool/bg_.png')
-    img = Image.open('/Users/jaskiratsingh/Desktop/ITPEnergisedApps/RiskTool/bg_.png')
+    img = Image.open('/home/jaskiratsingh/RiskTool/bg_.png')
     fig, ax = plt.subplots() 
     
     plt.xlabel('Impact Before Mitigation')
@@ -78,7 +77,6 @@ def show_projects(request):
 
     #Chart 2
     buf3 = io.BytesIO()
-    # img = Image.open('/home/jaskiratsingh/RiskTool/bg_.png')
     fig2, ax2 = plt.subplots() 
     
     plt.xlabel('Impact After Mitigation')
