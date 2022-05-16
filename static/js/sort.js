@@ -18,10 +18,10 @@ sort_by.addEventListener('change',function(){
                 '<td class="col-scope">' + data[i].scope_of_work + '</td>' +
                 '<td class="col-col-cat">' + data[i].category + '</td>' +
                 '<td class="col-risk">' + data[i].desc + '</td>' +
-                '<td class="col-prob">' + data[i].probability + '</td>' +
+                '<td class="col-prob">' + data[i].prob_bef_miti + '</td>' +
                 '<td class="col-impact">' + data[i].impact + '</td>' +
-                '<td class="col-score">' + (data[i].probability * data[i].impact) + '</td>' +
-                '<td class="col-control">' + data[i].control_measures + '</td>' +
+                '<td class="col-score">' + (data[i].prob_bef_miti * data[i].imp_bef_miti) + '</td>' +
+                '<td class="col-control">' + data[i].mitigation + '</td>' +
                 '<td class="col-owner">' + data[i].owner + '</td>' +
                 '<td class="col-status">' + data[i].status + '</td>' +
                 '<td class="col-nearest">' + data[i].nearest_month + '</td>' +

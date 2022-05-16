@@ -25,10 +25,13 @@ def platform(request):
 def show_projects(request):
     projects = Projects.objects.all()
     risks = Risks.objects.all()
-    score = []
+    score_bef_miti = []
+    score_aft_miti = []
     project_names = []
-    probability = []
-    impact = []
+    prob_bef_miti = []
+    prob_aft_miti = []
+    imp_bef_miti = []
+    imp_aft_miti = []
     project_name = ''
     projects_all = []
     for project in projects:
@@ -36,20 +39,24 @@ def show_projects(request):
         projects_all.append(project.project_number)
         for risk in project_name.risks_set.all():
             project_names.append(project.project_name)
-            probability.append(int(risk.probability))
-            impact.append(int(risk.impact))
+            prob_bef_miti.append(int(risk.prob_bef_miti))
+            prob_aft_miti.append(int(risk.prob_aft_miti))
+            imp_bef_miti.append(int(risk.imp_bef_miti))
+            imp_aft_miti.append(int(risk.imp_aft_miti))
 
     for i in range(len(project_names)):
-        score.append(impact[i] * probability[i])
+        score_bef_miti.append(imp_bef_miti[i] * prob_bef_miti[i])
+        score_aft_miti.append(imp_aft_miti[i] * prob_aft_miti[i])
     
+
+    #Chart 1
     buf2 = io.BytesIO()
-    img = Image.open('/home/jaskiratsingh/RiskTool/bg_.png')
+    # img = Image.open('/home/jaskiratsingh/RiskTool/bg_.png')
+    img = Image.open('/Users/jaskiratsingh/Desktop/ITPEnergisedApps/RiskTool/bg_.png')
     fig, ax = plt.subplots() 
-    x = range(5)
-    y = range(5)
     
-    plt.xlabel('Impact')
-    plt.ylabel('Probability')
+    plt.xlabel('Impact Before Mitigation')
+    plt.ylabel('Probability Before Mitigation')
 
     text = []
 
@@ -57,10 +64,10 @@ def show_projects(request):
         text.append('R' + str(projects_all[n]))
 
     for i, txt in enumerate(text):
-        ax.annotate(txt, (impact[i], probability[i]))
+        ax.annotate(txt, (imp_bef_miti[i], prob_bef_miti[i]))
     
     #Plot some data
-    plt.scatter(impact, probability,c='blue')
+    plt.scatter(imp_bef_miti, prob_bef_miti,c='blue')
     ax.imshow(img,extent=[0, 5, 0, 5])
     plt.show()
 
@@ -69,21 +76,51 @@ def show_projects(request):
     string2 = base64.b64encode(buf2.read())
     uri2 = urllib.parse.quote(string2)
 
+    #Chart 2
+    buf3 = io.BytesIO()
+    # img = Image.open('/home/jaskiratsingh/RiskTool/bg_.png')
+    fig2, ax2 = plt.subplots() 
+    
+    plt.xlabel('Impact After Mitigation')
+    plt.ylabel('Probability After Mitigation')
+
+    text2 = []
+
+    for n in range(len(projects_all)):
+        text2.append('R' + str(projects_all[n]))
+
+    for i, txt in enumerate(text):
+        ax2.annotate(txt, (imp_aft_miti[i], prob_aft_miti[i]))
+    
+    #Plot some data
+    plt.scatter(imp_aft_miti, prob_aft_miti,c='blue')
+    ax2.imshow(img,extent=[0, 5, 0, 5])
+    plt.show()
+
+    plt.savefig(buf3,format = 'png')
+    buf3.seek(0)
+    string3 = base64.b64encode(buf3.read())
+    uri3 = urllib.parse.quote(string3)
+
 
     return render(request,'show_projects.html',{
         'nav':'show_projects',
         'projects':projects,
         'risks':risks,
-        'score':score,
+        'score_bef_miti':score_bef_miti,
+        'score_aft_miti':score_aft_miti,
         'project_names':project_names,
-        'probability':probability,
-        'impact':impact,
-        'chart':uri2 
+        'prob_bef_miti':prob_bef_miti,
+        'prob_aft_miti':prob_aft_miti,
+        'imp_bef_miti':imp_bef_miti,
+        'imp_aft_miti':imp_aft_miti,
+        'chart':uri2,
+        'chart2':uri3,
     })
 
 def get_risk(request,project_name):
     risks = Risks.objects.filter(project_no__project_name=project_name)
-    score = int(risks[0].probability) * int(risks[0].impact)
+    score = int(risks[0].prob_bef_miti) * int(risks[0].imp_bef_miti)
     return render(request,'get_risk.html',{
         'nav':'get_risk',
         'project_name':project_name,
@@ -97,30 +134,40 @@ def existing_project(request):
         projects_ = Projects.objects.get(project_number=request.POST['project'])
         category = request.POST['category']
         desc = request.POST['desc']
-        probability = request.POST['probability']
-        impact = request.POST['impact']
-        control_measures = request.POST['control_measures']
+        prob_bef_miti = request.POST['prob_bef_miti']
+        prob_aft_miti = request.POST['prob_aft_miti']
+        imp_bef_miti = request.POST['imp_bef_miti']
+        imp_aft_miti = request.POST['imp_aft_miti']
+        mitigation = request.POST['mitigation']
         cl_costs = request.POST['cl_costs']
         pl_activities = request.POST['pl_activities']
         cont_acts = request.POST['cont_acts']
         owner  = request.POST['owner']
+        owner_of_mitigation  = request.POST['owner_of_mitigation']
         status = request.POST['status']
         nearest_month = request.POST['nearest_month']
         cont_bud = request.POST['cont_bud']
+        quality_impact = request.POST['quality_impact']
+        rep_impact = request.POST['reputation_impact']
 
         risks = Risks(projects=projects_,
         category=category,
         desc=desc,
-        probability=probability,
-        impact=impact,
-        control_measures=control_measures,
+        prob_bef_miti=prob_bef_miti,
+        prob_aft_miti=prob_aft_miti,
+        imp_bef_miti=imp_bef_miti,
+        imp_aft_miti=imp_aft_miti,
+        mitigation=mitigation,
         costs_in_budget=cont_bud,
         cl_costs=cl_costs,
         planned_costs=pl_activities,
         cont_costs=cont_acts,
         owner=owner,
+        owner_of_mitigation = owner_of_mitigation,
         status=status,
-        nearest_month=nearest_month)
+        nearest_month=nearest_month,
+        quality_impact=quality_impact,
+        rep_impact=rep_impact)
 
         risks.save()
 
@@ -151,30 +198,40 @@ def create_project(request):
 
         category = request.POST['category']
         desc = request.POST['desc']
-        probability = request.POST['probability']
-        impact = request.POST['impact']
-        control_measures = request.POST['control_measures']
+        prob_bef_miti = request.POST['prob_bef_miti']
+        prob_aft_miti = request.POST['prob_aft_miti']
+        imp_bef_miti = request.POST['imp_bef_miti']
+        imp_aft_miti = request.POST['imp_aft_miti']
+        mitigation = request.POST['mitigation']
         cl_costs = request.POST['cl_costs']
         pl_activities = request.POST['pl_activities']
         cont_acts = request.POST['cont_acts']
         owner  = request.POST['owner']
+        owner_of_mitigation  = request.POST['owner_of_mitigation']
         status = request.POST['status']
         nearest_month = request.POST['nearest_month']
         cont_bud = request.POST['cont_bud']
+        quality_impact = request.POST['quality_impact']
+        rep_impact = request.POST['reputation_impact']
 
         risks = Risks(projects=projects,
         category=category,
         desc=desc,
-        probability=probability,
-        impact=impact,
-        control_measures=control_measures,
+        prob_bef_miti=prob_bef_miti,
+        prob_aft_miti=prob_aft_miti,
+        imp_bef_miti=imp_bef_miti,
+        imp_aft_miti=imp_aft_miti,
+        mitigation=mitigation,
         costs_in_budget=cont_bud,
         cl_costs=cl_costs,
         planned_costs=pl_activities,
         cont_costs=cont_acts,
         owner=owner,
+        owner_of_mitigation = owner_of_mitigation,
         status=status,
-        nearest_month=nearest_month)
+        nearest_month=nearest_month,
+        quality_impact=quality_impact,
+        rep_impact=rep_impact)
 
         risks.save()
 
@@ -205,9 +262,9 @@ def sort_by(request,sortBy):
             'scope_of_work':r.projects.scope_of_work,
             'category':r.get_category_display(),
             'desc':r.desc,
-            'probability':r.probability,
-            'impact':r.impact,
-            'control_measures':r.control_measures,
+            'prob_bef_miti':r.prob_bef_miti,
+            'imp_bef_miti':r.imp_bef_miti,
+            'mitigation':r.mitigation,
             'costs_in_budget':r.costs_in_budget,
             'cl_costs':r.cl_costs,
             'planned_costs':r.planned_costs,
@@ -215,7 +272,7 @@ def sort_by(request,sortBy):
             'owner':r.owner,
             'status':r.get_status_display(),
             'nearest_month':r.nearest_month,
-            'score':int(r.probability) * int(r.impact),
+            'score':int(r.prob_bef_miti) * int(r.imp_bef_miti),
         })
 
     return JsonResponse(projects_arr, safe=False)

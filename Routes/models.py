@@ -31,6 +31,12 @@ probability_choices = (
     ('5', 'Very Likely'),
 )
 
+riskaction_choices = (
+    ('1','Treat'),
+    ('2','Own'),
+    ('3','Transfer'),
+)
+
 class Projects(models.Model):
     project_name = models.CharField(max_length=100)
     project_number = models.IntegerField(primary_key=True)
@@ -50,16 +56,23 @@ class Risks(models.Model):
     projects = models.ForeignKey(Projects,on_delete=models.CASCADE,blank=True, null=True)
     category = models.CharField(max_length=1, choices=category_choices)
     desc = models.TextField()
-    probability = models.CharField(max_length=1, choices=probability_choices)
-    impact = models.CharField(max_length=1, choices=impact_choices)
+    prob_bef_miti = models.CharField(max_length=1, choices=probability_choices, default='1')
+    prob_aft_miti = models.CharField(max_length=1, choices=probability_choices, default='1')
+    imp_bef_miti = models.CharField(max_length=1, choices=impact_choices, default='1')
+    imp_aft_miti = models.CharField(max_length=1, choices=impact_choices, default='1')
     status = models.CharField(max_length=1, choices=status_choices)
-    control_measures = models.TextField()
+    mitigation = models.TextField(default='Mitigation')
+    cost_of_mitigation = models.IntegerField(default=100000)
+    riskaction = models.CharField(max_length=1, choices=riskaction_choices, default='1')
     cl_costs = models.IntegerField()
     planned_costs = models.IntegerField()
     cont_costs = models.IntegerField()
     costs_in_budget = models.IntegerField()
     owner = models.CharField(max_length=20)
+    owner_of_mitigation = models.CharField(max_length=20,default='Owner')
     nearest_month = models.CharField(max_length=20)
+    quality_impact = models.TextField(default='Quality Impact')
+    rep_impact = models.TextField(default='Reputation Impact')
 
     def __str__(self):
         return self.category

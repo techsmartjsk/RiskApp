@@ -3,12 +3,12 @@
 {% load filters %}
 {% block content %}
 <div class="app-content" style="overflow:auto !important;">
-    <h1 class="app-content-headerText">Projects</h1>
-    <h1 class="app-content-headerText" style="margin:auto;">Risk Matrix Chart</h1>
-    {% comment %} <div>
-        <canvas id="myAreaChart" style="height:300px !important;"></canvas>
-    </div> {% endcomment %}
-    <img style="height:600px;"src='data:image/png;base64,{{ chart }}'>
+    <h1 class="app-content-headerText" style="margin-bottom:0 !important;">Projects</h1>
+    <h1 class="app-content-headerText" style="margin:auto;margin-bottom:0 !important;">Risk Matrix Chart</h1>
+    <div style="display:inherit;">
+      <img style="width:50%;"src='data:image/png;base64,{{ chart }}'>
+      <img style="width:50%;"src='data:image/png;base64,{{ chart2 }}'>
+    </div>
     <select style="margin-left:auto; max-width:200px;"id="sort_projects_by">
         <option value="" selected disabled>Sort By</option>
         <option value="probability">Probability</option>
@@ -24,17 +24,23 @@
             <li class="inline_list"><input  type="checkbox" data-col="col-scope" class="col-checkbox" />Scope of Work</li>
             <li class="inline_list"><input  type="checkbox" data-col="col-cat"class="col-checkbox" />Category</li>
             <li class="inline_list"><input  type="checkbox" data-col="col-risk" class="col-checkbox" />Risk Description</li>
-            <li class="inline_list"><input  type="checkbox" data-col="col-prob" class="col-checkbox" />Probability</li>
-            <li class="inline_list"><input  type="checkbox" data-col="col-impact" class="col-checkbox" />Impact</li>
-            <li class="inline_list"><input  type="checkbox" data-col="col-score"class="col-checkbox" />Score</li>
-            <li class="inline_list"><input  type="checkbox" data-col="col-control" class="col-checkbox" />Control Measures</li>
-            <li class="inline_list"><input  type="checkbox" data-col="col-owner" class="col-checkbox" />Owner</li>
+            <li class="inline_list"><input  type="checkbox" data-col="col-prob-bef" class="col-checkbox" />Probability Before Mitigation</li>
+            <li class="inline_list"><input  type="checkbox" data-col="col-impact-bef" class="col-checkbox" />Impact Before Mitigation</li>
+            <li class="inline_list"><input  type="checkbox" data-col="col-score-bef-miti"class="col-checkbox" />Score Before Mitigation</li>
+            <li class="inline_list"><input  type="checkbox" data-col="col-prob-aft" class="col-checkbox" />Probability After Mitigation</li>
+            <li class="inline_list"><input  type="checkbox" data-col="col-impact-aft" class="col-checkbox" />Impact After Mitigation</li>
+            <li class="inline_list"><input  type="checkbox" data-col="col-score-aft-miti"class="col-checkbox" />Score After Mitigation</li>
+            <li class="inline_list"><input  type="checkbox" data-col="col-control" class="col-checkbox" />Mitigation</li>
+            <li class="inline_list"><input  type="checkbox" data-col="col-owner-risk" class="col-checkbox" />Owner of Risk</li>
+            <li class="inline_list"><input  type="checkbox" data-col="col-owner-miti" class="col-checkbox" />Owner of Mitigation</li>
             <li class="inline_list"><input  type="checkbox" data-col="col-status" class="col-checkbox" />Status</li>
-            <li class="inline_list"><input  type="checkbox" data-col="col-nearest"class="col-checkbox" />Nearest Month</li>
+            <li class="inline_list"><input  type="checkbox" data-col="col-nearest"class="col-checkbox" />Target Completion Month</li>
             <li class="inline_list"><input  type="checkbox" data-col="col-cl-costs" class="col-checkbox" />Client Costs(£)</li>
             <li class="inline_list"><input  type="checkbox" data-col="col-pl-costs" class="col-checkbox" />Planned Activities Costs(£)</li>
             <li class="inline_list"><input  type="checkbox" data-col="col-cont-costs" class="col-checkbox" />Contingent Activities Costs(£)</li>
             <li class="inline_list"><input  type="checkbox" data-col="col-bud-costs"class="col-checkbox" />Costs included in Contingency Budget(£)</li>
+            <li class="inline_list"><input  type="checkbox" data-col="col-quality-impact" class="col-checkbox" />Quality Impact</li>
+            <li class="inline_list"><input  type="checkbox" data-col="col-reputation-impact"class="col-checkbox" />Reputation Impact</li>
         </ul>
     </div>
     </br>
@@ -48,17 +54,23 @@
             <th class="width_ col-scope">Scope of Work</th>
             <th class="col-cat">Category</th>
             <th class="width_ col-risk">Risk Description</th>
-            <th class="col-prob">Probability</th>
-            <th class="col-impact">Impact</th>
-            <th class="col-score">Score</th>
-            <th class="width_ col-control">Control Measures</th>
-            <th class="col-owner">Owner</th>
+            <th class="col-prob-bef">Probability Before Mitigation</th>
+            <th class="col-impact-bef">Impact Before Mitigation</th>
+            <th class="col-score-bef-miti">Score Before Mitigation</th>
+            <th class="col-prob-aft">Probability After Mitigation</th>
+            <th class="col-impact-aft">Impact After Mitigation</th>
+            <th class="col-score-aft-miti">Score After Mitigation</th>
+            <th class="width_ col-control">Mitigation</th>
+            <th class="col-owner-risk">Owner of Risk</th>
+            <th class="col-owner-miti">Owner of Mitigation</th>
             <th class="col-status">Status</th>
-            <th class="width_ col-nearest">Nearest Month</th>
+            <th class="width_ col-nearest">Target Completion Month</th>
             <th class="col-cl-costs">Client Costs(£)</th>
             <th class="col-pl-costs">Planned Activities Costs(£)</th>
             <th class="col-cont-costs">Contingent Activities Costs(£)</th>
             <th class="col-bud-costs">Costs included in Contingency Budget(£)</th>
+            <th class="width_ col-quality-impact">Quality Impact</th>
+            <th class="width_ col-reputation-impact">Reputation Impact</th>
         </thead>
         <tbody id="projects">
             {% for r in risks %}
@@ -71,18 +83,23 @@
                     <td class="col-scope">{{ r.projects.scope_of_work}}</td>
                     <td class="col-cat">{{ r.get_category_display }}</td>
                     <td class="col-risk">{{ r.desc }}</td>
-                    <td class="col-prob">{{ probability|array:forloop.counter0 }}</td>
-                    <td class="col-impact">{{ impact|array:forloop.counter0 }}</td>
-                    <td class="col-score">{{ score|array:forloop.counter0 }}</td>
-                    <td class="col-control">{{ r.control_measures }}</td>
-                    <td class="col-owner">{{ r.owner }}</td>
+                    <td class="col-prob-bef">{{ prob_bef_miti|array:forloop.counter0 }}</td>
+                    <td class="col-impact-bef">{{ imp_bef_miti|array:forloop.counter0 }}</td>
+                    <td class="col-score-bef-miti">{{ score_bef_miti|array:forloop.counter0 }}</td>
+                    <td class="col-prob-aft">{{ prob_aft_miti|array:forloop.counter0 }}</td>
+                    <td class="col-impact-aft">{{ imp_aft_miti|array:forloop.counter0 }}</td>
+                    <td class="col-score-aft-miti">{{ score_aft_miti|array:forloop.counter0 }}</td>
+                    <td class="col-control">{{ r.mitigation }}</td>
+                    <td class="col-owner-risk">{{ r.owner }}</td>
+                    <td class="col-owner-miti">{{ r.owner_of_mitigation }}</td>
                     <td class="col-status">{{ r.get_status_display }}</td>
                     <td class="col-nearest">{{ r.nearest_month }}</td>
                     <td class="col-cl-costs">£{{ r.cl_costs }}</td>
                     <td class="col-pl-costs">£{{ r.planned_costs }}</td>
                     <td class="col-cont-costs">£{{ r.cont_costs }}</td>
                     <td class="col-bud-costs">£{{ r.costs_in_budget }}</td>
-            
+                    <td class="col-quality-impact">{{ r.quality_impact }}</td>
+                    <td class="col-reputation-impact">{{ r.rep_impact }}</td>
                 </tr>
             {% endfor %}
         </tbody>

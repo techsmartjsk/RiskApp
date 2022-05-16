@@ -20,7 +20,7 @@ class Migration(migrations.Migration):
                 ('probability', models.CharField(choices=[('1', 'Very Unlikely'), ('2', 'Unlikely'), ('3', 'Moderately Likely'), ('4', 'Likely'), ('5', 'Very Likely')], max_length=1)),
                 ('impact', models.CharField(choices=[('1', 'Negligible'), ('2', 'Marginal'), ('3', 'Significant'), ('4', 'Critical'), ('5', 'Unacceptable/Crisis')], max_length=1)),
                 ('status', models.CharField(choices=[('1', 'Open'), ('2', 'In progress'), ('3', 'Closed')], max_length=1)),
-                ('control_measures', models.TextField()),
+                ('mitigation', models.TextField()),
                 ('cl_costs', models.IntegerField()),
                 ('planned_costs', models.IntegerField()),
                 ('cont_costs', models.IntegerField()),

@@ -12,9 +12,9 @@
             <i class="fas fa-dice" style="font-size:40px;"></i>
             <div class="ms-3">
               <div class="d-flex align-items-center">
-                <h3 class="mb-0">{{ r.probability }}</h3>
+                <h3 class="mb-0">{{ r.prob_bef_miti }}</h3>
               </div>
-              <p class="fs-normal mb-0">Probability</p>
+              <p class="fs-normal mb-0">Probability Before Mitigation</p>
             </div>
           </div>
         </div>
@@ -63,7 +63,7 @@
                     </div>
                     <br/>
                 <h5 class="fs-normal mb-0"><strong>Risk Description :</strong> {{ r.desc }}</h5><br/>
-                <h5 class="fs-normal mb-0"><strong>Control Measures :</strong> {{ r.control_measures}}</h5><br/>
+                <h5 class="fs-normal mb-0"><strong>Control Measures :</strong> {{ r.mitigation}}</h5><br/>
                 <h5 class="fs-normal mb-0"><strong>Owner :</strong> {{ r.owner }}</h5><br/>
                 <h5 class="fs-normal mb-0"><strong>Nearest Month :</strong> {{ r.nearest_month }}</h5>
                 </div>
