@@ -51,11 +51,12 @@ def show_projects(request):
 
     #Chart 1
     buf2 = io.BytesIO()
-    img = Image.open('/home/jaskiratsingh/RiskTool/bg_.png')
+    # img = Image.open('/home/jaskiratsingh/RiskTool/bg_.png')
+    img = Image.open('/Users/jaskiratsingh/Desktop/ITPEnergisedApps/RiskTool/bg_.png')
     fig, ax = plt.subplots() 
     
-    plt.xlabel('Impact Before Mitigation')
-    plt.ylabel('Probability Before Mitigation')
+    plt.xlabel('Impact Before Mitigation',fontdict={'fontweight':'bold'})
+    plt.ylabel('Probability Before Mitigation',fontdict={'fontweight':'bold'})
 
     text = []
 
@@ -79,8 +80,8 @@ def show_projects(request):
     buf3 = io.BytesIO()
     fig2, ax2 = plt.subplots() 
     
-    plt.xlabel('Impact After Mitigation')
-    plt.ylabel('Probability After Mitigation')
+    plt.xlabel('Impact After Mitigation',fontdict={'fontweight':'bold'})
+    plt.ylabel('Probability After Mitigation',fontdict={'fontweight':'bold'})
 
     text2 = []
 
@@ -261,7 +262,9 @@ def sort_by(request,sortBy):
             'category':r.get_category_display(),
             'desc':r.desc,
             'prob_bef_miti':r.prob_bef_miti,
+            'prob_aft_miti':r.prob_aft_miti,
             'imp_bef_miti':r.imp_bef_miti,
+            'imp_aft_miti':r.imp_aft_miti,
             'mitigation':r.mitigation,
             'costs_in_budget':r.costs_in_budget,
             'cl_costs':r.cl_costs,
