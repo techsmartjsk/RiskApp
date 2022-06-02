@@ -63,6 +63,8 @@ class Risks(models.Model):
     status = models.CharField(max_length=1, choices=status_choices)
     mitigation = models.TextField(default='Mitigation')
     cost_of_mitigation = models.IntegerField(default=100000)
+    cost_of_bef_mitigation = models.IntegerField(default=100000)
+    cost_of_aft_mitigation = models.IntegerField(default=100000)
     riskaction = models.CharField(max_length=1, choices=riskaction_choices, default='1')
     cl_costs = models.IntegerField()
     planned_costs = models.IntegerField()

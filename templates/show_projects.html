@@ -1,6 +1,7 @@
 {% extends 'base.html' %}
 {% load static %}
 {% load filters %}
+{% load humanize %}
 {% block content %}
 <div class="app-content" style="overflow:auto !important;">
     <h1 class="app-content-headerText" style="margin-bottom:0 !important;">Projects</h1>
@@ -33,14 +34,17 @@
             <li class="inline_list"><input  type="checkbox" data-col="col-impact-aft" class="col-checkbox" />Impact After Mitigation</li>
             <li class="inline_list"><input  type="checkbox" data-col="col-score-aft-miti"class="col-checkbox" />Score After Mitigation</li>
             <li class="inline_list"><input  type="checkbox" data-col="col-control" class="col-checkbox" />Mitigation</li>
+            <li class="inline_list"><input  type="checkbox" data-col="col-cost-of-miti" class="col-checkbox" />Cost of Mitigation</li>
+            <li class="inline_list"><input  type="checkbox" data-col="col-cost-of-bef-miti" class="col-checkbox" />Cost of Risk before Mitigation</li>
+            <li class="inline_list"><input  type="checkbox" data-col="col-cost-of-aft-miti" class="col-checkbox" />Cost of Risk after Mitigation</li>
             <li class="inline_list"><input  type="checkbox" data-col="col-owner-risk" class="col-checkbox" />Owner of Risk</li>
             <li class="inline_list"><input  type="checkbox" data-col="col-owner-miti" class="col-checkbox" />Owner of Mitigation</li>
             <li class="inline_list"><input  type="checkbox" data-col="col-status" class="col-checkbox" />Status</li>
             <li class="inline_list"><input  type="checkbox" data-col="col-nearest"class="col-checkbox" />Target Completion Month</li>
-            <li class="inline_list"><input  type="checkbox" data-col="col-cl-costs" class="col-checkbox" />Client Costs(£)</li>
+            {% comment %} <li class="inline_list"><input  type="checkbox" data-col="col-cl-costs" class="col-checkbox" />Client Costs(£)</li>
             <li class="inline_list"><input  type="checkbox" data-col="col-pl-costs" class="col-checkbox" />Planned Activities Costs(£)</li>
             <li class="inline_list"><input  type="checkbox" data-col="col-cont-costs" class="col-checkbox" />Contingent Activities Costs(£)</li>
-            <li class="inline_list"><input  type="checkbox" data-col="col-bud-costs"class="col-checkbox" />Costs included in Contingency Budget(£)</li>
+            <li class="inline_list"><input  type="checkbox" data-col="col-bud-costs"class="col-checkbox" />Costs included in Contingency Budget(£)</li> {% endcomment %}
             <li class="inline_list"><input  type="checkbox" data-col="col-quality-impact" class="col-checkbox" />Quality Impact</li>
             <li class="inline_list"><input  type="checkbox" data-col="col-reputation-impact"class="col-checkbox" />Reputation Impact</li>
         </ul>
@@ -63,14 +67,17 @@
             <th class="col-impact-aft">Impact After Mitigation</th>
             <th class="col-score-aft-miti">Score After Mitigation</th>
             <th class="width_ col-control">Mitigation</th>
+            <th class="col-cost-of-miti">Cost of Mitigation</th>
+            <th class="col-cost-of-bef-miti">Cost of Risk Before Mitigation</th>
+            <th class="col-cost-of-aft-miti">Cost of Risk After Mitigation</th>
             <th class="col-owner-risk">Owner of Risk</th>
             <th class="col-owner-miti">Owner of Mitigation</th>
             <th class="col-status">Status</th>
             <th class="width_ col-nearest">Target Completion Month</th>
-            <th class="col-cl-costs">Client Costs(£)</th>
+            {% comment %} <th class="col-cl-costs">Client Costs(£)</th>
             <th class="col-pl-costs">Planned Activities Costs(£)</th>
             <th class="col-cont-costs">Contingent Activities Costs(£)</th>
-            <th class="col-bud-costs">Costs included in Contingency Budget(£)</th>
+            <th class="col-bud-costs">Costs included in Contingency Budget(£)</th> {% endcomment %}
             <th class="width_ col-quality-impact">Quality Impact</th>
             <th class="width_ col-reputation-impact">Reputation Impact</th>
         </thead>
@@ -92,14 +99,17 @@
                     <td class="col-impact-aft">{{ imp_aft_miti|array:forloop.counter0 }}</td>
                     <td class="col-score-aft-miti">{{ score_aft_miti|array:forloop.counter0 }}</td>
                     <td class="col-control">{{ r.mitigation }}</td>
+                    <td class="col-cost-of-miti">£{{ r.cost_of_mitigation|intcomma }}</td>
+                    <td class="col-cost-of-bef-miti">£{{ r.cost_of_bef_mitigation|intcomma }}</td>
+                    <td class="col-cost-of-aft-miti">£{{ r.cost_of_aft_mitigation|intcomma }}</td>
                     <td class="col-owner-risk">{{ r.owner }}</td>
                     <td class="col-owner-miti">{{ r.owner_of_mitigation }}</td>
                     <td class="col-status">{{ r.get_status_display }}</td>
                     <td class="col-nearest">{{ r.nearest_month }}</td>
-                    <td class="col-cl-costs">£{{ r.cl_costs }}</td>
+                    {% comment %} <td class="col-cl-costs">£{{ r.cl_costs }}</td>
                     <td class="col-pl-costs">£{{ r.planned_costs }}</td>
                     <td class="col-cont-costs">£{{ r.cont_costs }}</td>
-                    <td class="col-bud-costs">£{{ r.costs_in_budget }}</td>
+                    <td class="col-bud-costs">£{{ r.costs_in_budget }}</td> {% endcomment %}
                     <td class="col-quality-impact">{{ r.quality_impact }}</td>
                     <td class="col-reputation-impact">{{ r.rep_impact }}</td>
                 </tr>

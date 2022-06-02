@@ -1,9 +1,7 @@
 from django.http import HttpResponse,JsonResponse
 from django.shortcuts import redirect, render
 from Routes.models import Projects,Risks
-import json
 import io
-import os
 import urllib, base64
 import numpy as np
 import matplotlib
@@ -39,10 +37,10 @@ def show_projects(request):
         projects_all.append(project.project_number)
         for risk in project_name.risks_set.all():
             project_names.append(project.project_name)
-            prob_bef_miti.append(int(risk.prob_bef_miti))
-            prob_aft_miti.append(int(risk.prob_aft_miti))
-            imp_bef_miti.append(int(risk.imp_bef_miti))
-            imp_aft_miti.append(int(risk.imp_aft_miti))
+            prob_bef_miti.append(int(risk.prob_bef_miti) * 20)
+            prob_aft_miti.append(int(risk.prob_aft_miti) * 20)
+            imp_bef_miti.append(int(risk.imp_bef_miti) * 20)
+            imp_aft_miti.append(int(risk.imp_aft_miti) * 20)
 
     for i in range(len(project_names)):
         score_bef_miti.append(imp_bef_miti[i] * prob_bef_miti[i])
@@ -68,7 +66,9 @@ def show_projects(request):
     
     #Plot some data
     plt.scatter(imp_bef_miti, prob_bef_miti,c='blue')
-    ax.imshow(img,extent=[0, 5, 0, 5])
+    ax.imshow(img,extent=[0, 100, 0, 100])
+    plt.xticks([0, 20, 40,60,80,100],['0%','20%','40%','60%','80%','100%'])
+    plt.yticks([0, 20, 40,60,80,100],['0%','20%','40%','60%','80%','100%'])
     plt.show()
 
     plt.savefig(buf2,format = 'png')
@@ -93,7 +93,9 @@ def show_projects(request):
     
     #Plot some data
     plt.scatter(imp_aft_miti, prob_aft_miti,c='blue')
-    ax2.imshow(img,extent=[0, 5, 0, 5])
+    ax2.imshow(img,extent=[0, 100, 0, 100])
+    plt.xticks([0, 20, 40,60,80,100],['0%','20%','40%','60%','80%','100%'])
+    plt.yticks([0, 20, 40,60,80,100],['0%','20%','40%','60%','80%','100%'])
     plt.show()
 
     plt.savefig(buf3,format = 'png')
@@ -138,14 +140,17 @@ def existing_project(request):
         imp_bef_miti = request.POST['imp_bef_miti']
         imp_aft_miti = request.POST['imp_aft_miti']
         mitigation = request.POST['mitigation']
-        cl_costs = request.POST['cl_costs']
-        pl_activities = request.POST['pl_activities']
-        cont_acts = request.POST['cont_acts']
+        cost_of_mitigation = request.POST['cost_of_mitigation']
+        cost_of_bef_mitigation = request.POST['cost_of_bef_mitigation']
+        cost_of_aft_mitigation = request.POST['cost_of_aft_mitigation']
+        cl_costs = 10000
+        pl_activities = 10000
+        cont_acts = 10000
         owner  = request.POST['owner']
         owner_of_mitigation  = request.POST['owner_of_mitigation']
         status = request.POST['status']
         nearest_month = request.POST['nearest_month']
-        cont_bud = request.POST['cont_bud']
+        cont_bud = 100000
         quality_impact = request.POST['quality_impact']
         rep_impact = request.POST['reputation_impact']
 
@@ -157,6 +162,9 @@ def existing_project(request):
         imp_bef_miti=imp_bef_miti,
         imp_aft_miti=imp_aft_miti,
         mitigation=mitigation,
+        cost_of_mitigation=cost_of_mitigation,
+        cost_of_bef_mitigation = cost_of_bef_mitigation,
+        cost_of_aft_mitigation = cost_of_aft_mitigation,
         costs_in_budget=cont_bud,
         cl_costs=cl_costs,
         planned_costs=pl_activities,
@@ -202,14 +210,17 @@ def create_project(request):
         imp_bef_miti = request.POST['imp_bef_miti']
         imp_aft_miti = request.POST['imp_aft_miti']
         mitigation = request.POST['mitigation']
-        cl_costs = request.POST['cl_costs']
-        pl_activities = request.POST['pl_activities']
-        cont_acts = request.POST['cont_acts']
+        cost_of_mitigation = request.POST['cost_of_mitigation']
+        cost_of_bef_mitigation = request.POST['cost_of_bef_mitigation']
+        cost_of_aft_mitigation = request.POST['cost_of_aft_mitigation']
+        cl_costs = 100000
+        pl_activities = 100000
+        cont_acts = 100000
         owner  = request.POST['owner']
         owner_of_mitigation  = request.POST['owner_of_mitigation']
         status = request.POST['status']
         nearest_month = request.POST['nearest_month']
-        cont_bud = request.POST['cont_bud']
+        cont_bud = 100000
         quality_impact = request.POST['quality_impact']
         rep_impact = request.POST['reputation_impact']
 
@@ -221,6 +232,9 @@ def create_project(request):
         imp_bef_miti=imp_bef_miti,
         imp_aft_miti=imp_aft_miti,
         mitigation=mitigation,
+        cost_of_mitigation=cost_of_mitigation,
+        cost_of_bef_mitigation=cost_of_bef_mitigation,
+        cost_of_aft_mitigation=cost_of_aft_mitigation,
         costs_in_budget=cont_bud,
         cl_costs=cl_costs,
         planned_costs=pl_activities,
@@ -266,6 +280,7 @@ def sort_by(request,sortBy):
             'imp_bef_miti':r.imp_bef_miti,
             'imp_aft_miti':r.imp_aft_miti,
             'mitigation':r.mitigation,
+            'cost_of_mitigation':r.cost_of_mitigation,
             'costs_in_budget':r.costs_in_budget,
             'cl_costs':r.cl_costs,
             'planned_costs':r.planned_costs,
